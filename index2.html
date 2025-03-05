@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>رفع الـ Input فوق الكيبورد</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        background-color: #f1f1f1;
+      }
+
+      .chat-container {
+        width: 100%;
+        max-width: 600px;
+        padding: 10px;
+        background: white;
+        box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        outline: none;
+      }
+
+      button {
+        padding: 10px 15px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container">
+      <input type="text" id="messageInput" placeholder="اكتب رسالة..." />
+      <button onclick="sendMessage()">إرسال</button>
+    </div>
+
+    <script>
+      const input = document.getElementById("messageInput");
+      const chatContainer = document.querySelector(".chat-container");
+
+      function adjustInputPosition() {
+        setTimeout(() => {
+          if (window.innerHeight < 500) {
+            // لو الشاشة صغرت، غالبًا الكيبورد فتح
+            chatContainer.style.position = "absolute";
+            chatContainer.style.bottom = "300px"; // رفع الـ input فوق الكيبورد
+          } else {
+            chatContainer.style.position = "fixed";
+            chatContainer.style.bottom = "0";
+          }
+        }, 100); // تأخير بسيط لضبط الحركة
+      }
+
+      window.addEventListener("resize", adjustInputPosition);
+      input.addEventListener("focus", adjustInputPosition);
+      input.addEventListener("blur", () => {
+        chatContainer.style.position = "fixed";
+        chatContainer.style.bottom = "0";
+      });
+
+      function sendMessage() {
+        alert("تم إرسال الرسالة: " + input.value);
+        input.value = "";
+      }
+    </script>
+  </body>
+</html>
